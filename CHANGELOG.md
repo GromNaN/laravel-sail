@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/laravel/sail/compare/v1.34.0...1.x)
 
+* Add MongoDB extension and service by [@GromNaN](https://github.com/GromNaN) in https://github.com/laravel/sail/pulls
+
 ## [v1.34.0](https://github.com/laravel/sail/compare/v1.33.0...v1.34.0) - 2024-09-27
 
 * M3 silicon support and fix 'Hash Sum Mismatch' by [@ConrDev](https://github.com/ConrDev) in https://github.com/laravel/sail/pull/734

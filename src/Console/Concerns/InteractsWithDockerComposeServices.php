@@ -16,6 +16,7 @@ trait InteractsWithDockerComposeServices
         'mysql',
         'pgsql',
         'mariadb',
+        'mongodb',
         'redis',
         'memcached',
         'meilisearch',
@@ -92,7 +93,7 @@ trait InteractsWithDockerComposeServices
         // Merge volumes...
         collect($services)
             ->filter(function ($service) {
-                return in_array($service, ['mysql', 'pgsql', 'mariadb', 'redis', 'meilisearch', 'typesense', 'minio']);
+                return in_array($service, ['mysql', 'pgsql', 'mariadb', 'mongodb', 'redis', 'meilisearch', 'typesense', 'minio']);
             })->filter(function ($service) use ($compose) {
                 return ! array_key_exists($service, $compose['volumes'] ?? []);
             })->each(function ($service) use (&$compose) {
@@ -154,6 +155,10 @@ trait InteractsWithDockerComposeServices
 
         $environment = str_replace('DB_USERNAME=root', "DB_USERNAME=sail", $environment);
         $environment = preg_replace("/DB_PASSWORD=(.*)/", "DB_PASSWORD=password", $environment);
+
+        if (in_array('mongodb', $services)) {
+            $environment = str_replace('MONGODB_URI=mongodb://127.0.0.1:27017', 'MONGODB_URI=mongodb://127.0.0.1:27017', $environment);
+        }
 
         if (in_array('memcached', $services)) {
             $environment = str_replace('MEMCACHED_HOST=127.0.0.1', 'MEMCACHED_HOST=memcached', $environment);
