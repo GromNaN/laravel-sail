@@ -1,17 +1,21 @@
 mongodb:
-    image: mongodb/mongodb-community-server:6.0-ubi8
+    image: 'mongodb/mongodb-community-server:6.0-ubi8'
     environment:
-        - MONGO_INITDB_ROOT_USERNAME=user
-        - MONGO_INITDB_ROOT_PASSWORD=laravel
+        MONGO_INITDB_ROOT_USERNAME: '${MONGODB_USERNAME}'
+        MONGO_INITDB_ROOT_PASSWORD: '${MONGODB_PASSWORD}'
     volumes:
-        - type: bind
-        source: ./data
-        target: /data/db
+        - 'sail-mongodb:/data'
     ports:
         - '${FORWARD_MONGODB_PORT:-27017}:27017'
     networks:
         - sail
     healthcheck:
-        test: ["CMD", "redis-cli", "ping"]
+        test:
+            - CMD
+            - mongosh
+            - 'mongodb://localhost:27017/admin'
+            - '--username=${MONGO_INITDB_ROOT_USERNAME}'
+            - '--password=${MONGO_INITDB_ROOT_PASSWORD}'
+            - '--eval=db.runCommand({ping:1})'
         retries: 3
         timeout: 5s
