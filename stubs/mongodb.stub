@@ -13,9 +13,6 @@ mongodb:
         test:
             - CMD
             - mongosh
-            - 'mongodb://localhost:27017/admin'
-            - '--username=${MONGO_INITDB_ROOT_USERNAME}'
-            - '--password=${MONGO_INITDB_ROOT_PASSWORD}'
             - '--eval=db.runCommand({ping:1})'
         retries: 3
         timeout: 5s
