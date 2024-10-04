@@ -527,18 +527,6 @@ elif [ "$1" == "root-shell" ] || [ "$1" == "root-bash" ]; then
         sail_is_not_running
     fi
 
-# Initiate a MongoDB Shell within the "mongodb" container...
-elif [ "$1" == "mongodb" ]; then
-    shift 1
-
-    if [ "$EXEC" == "yes" ]; then
-        ARGS+=(exec)
-        [ ! -t 0 ] && ARGS+=(-T)
-        ARGS+=(mongodb mongosh)
-    else
-        sail_is_not_running
-    fi
-
 # Initiate a Redis CLI terminal session within the "redis" container...
 elif [ "$1" == "redis" ]; then
     shift 1
@@ -547,6 +535,18 @@ elif [ "$1" == "redis" ]; then
         ARGS+=(exec)
         [ ! -t 0 ] && ARGS+=(-T)
         ARGS+=(redis redis-cli)
+    else
+        sail_is_not_running
+    fi
+
+# Initiate a MongoDB Shell within the "mongodb" container...
+elif [ "$1" == "mongodb" ]; then
+    shift 1
+
+    if [ "$EXEC" == "yes" ]; then
+        ARGS+=(exec)
+        [ ! -t 0 ] && ARGS+=(-T)
+        ARGS+=(mongodb mongosh)
     else
         sail_is_not_running
     fi
