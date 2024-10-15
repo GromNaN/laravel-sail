@@ -546,7 +546,7 @@ elif [ "$1" == "mongodb" ]; then
     if [ "$EXEC" == "yes" ]; then
         ARGS+=(exec)
         [ ! -t 0 ] && ARGS+=(-T)
-        ARGS+=(mongodb mongosh)
+        ARGS+=(mongodb mongosh --username=${MONGO_INITDB_ROOT_USERNAME} --password=${MONGO_INITDB_ROOT_PASSWORD} --authenticationDatabase=admin)
     else
         sail_is_not_running
     fi

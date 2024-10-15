@@ -1,10 +1,10 @@
 mongodb:
-    image: 'mongodb/mongodb-community-server:6.0-ubi8'
+    image: 'mongodb/mongodb-atlas-local:latest'
     environment:
-        MONGO_INITDB_ROOT_USERNAME: '${MONGODB_USERNAME}'
-        MONGO_INITDB_ROOT_PASSWORD: '${MONGODB_PASSWORD}'
+        MONGODB_INITDB_ROOT_USERNAME: '${MONGODB_USERNAME}'
+        MONGODB_INITDB_ROOT_PASSWORD: '${MONGODB_PASSWORD}'
     volumes:
-        - 'sail-mongodb:/data'
+        - 'sail-mongodb:/data/db'
     ports:
         - '${FORWARD_MONGODB_PORT:-27017}:27017'
     networks:
@@ -13,6 +13,9 @@ mongodb:
         test:
             - CMD
             - mongosh
+            - 'mongodb://localhost:27017/admin'
+            - '--username=${MONGODB_USERNAME}'
+            - '--password=${MONGODB_PASSWORD}'
             - '--eval=db.runCommand({ping:1})'
         retries: 3
         timeout: 5s
